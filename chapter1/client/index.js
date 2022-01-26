@@ -6,7 +6,7 @@ let abi = JSON.parse(
 );
 const contractInstance = new web3.eth.Contract(
   abi,
-  '0xf0c9e5a12baa972347e130da1a0a606988c9c913'
+  '0x707b52385e6c95c2964b9e54e0006f29e2aed323'
 );
 
 let candidates = {
@@ -15,7 +15,7 @@ let candidates = {
   Jose: 'candidate-3',
 };
 function voteForCandidate(candidate) {
-  let candidateName = $('#candidate').val();
+  let candidateName = document.querySelector('#candidate').value;
   contractInstance.methods
     .voteForCandidate(web3.utils.toHex(candidateName))
     .send({ from: account })
@@ -24,7 +24,7 @@ function voteForCandidate(candidate) {
 
 // 득표현황 확인
 // 각 후보에 대해 totalVotesFor 호출
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
   setAccount();
   setVotingStatus();
 });
@@ -54,7 +54,7 @@ function setVotingStatus() {
       .totalVotesFor(web3.utils.toHex(name))
       .call()
       .then((result) => {
-        $('#' + candidates[name]).html(result);
+        document.querySelector(`#${candidates[name]}`).innerHTML = result;
       });
   }
 }
